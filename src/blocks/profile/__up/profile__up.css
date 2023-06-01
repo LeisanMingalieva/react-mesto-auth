@@ -1,0 +1,10 @@
+.profile__up {
+    display: block;
+    align-items: center;
+}
+
+@media (max-width: 320px) {
+    .profile__up {
+        max-width: 282px;
+    }
+}

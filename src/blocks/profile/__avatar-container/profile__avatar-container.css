@@ -1,0 +1,10 @@
+.profile__avatar-container {
+    background-image: url(../../../image/edit_button.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 26px 26px;
+    background-color: black;
+    height: 120px;
+    width: 120px;
+    border-radius: 100%;
+}

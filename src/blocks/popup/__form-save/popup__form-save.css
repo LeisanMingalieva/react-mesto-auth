@@ -1,0 +1,30 @@
+.popup__form-save {
+    max-width: 358px;
+    width: 100%;
+    min-height: 50px;
+    background-color: black;
+    border-radius: 2px;
+    border: none;
+    color: #fff;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 122%;
+    cursor: pointer;
+    margin: 13px auto 37px;
+}
+
+.popup__form-save:hover {
+    opacity: .6;
+}
+
+@media (max-width: 450px) {
+    .popup__form-save {
+        max-width: 238px;
+        width: 100%;
+        min-height: 46px;
+        margin: 0 auto 25px;
+        font-size: 14px;
+    }
+}
