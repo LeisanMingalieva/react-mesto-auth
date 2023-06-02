@@ -1,4 +1,4 @@
-.login__button {
+.register__button {
     max-width: 358px;
     width: 100%;
     max-height: 50px;
@@ -16,6 +16,6 @@
     display:block;
 }
 
-.login__button:hover {
+.register__button:hover {
     opacity: .6;
 }
