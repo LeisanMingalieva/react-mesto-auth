@@ -1,4 +1,5 @@
 import '../index.css';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
@@ -7,10 +8,10 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import PopupWithForm from './PopupWithForm';
+import Login from './Login';
 import React from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import {api} from '../utils/Api';
-import { func } from 'prop-types';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false)
@@ -20,6 +21,7 @@ function App() {
   const [selectedCard, setSelectedCard] = React.useState({});
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
+  const [loggedIn, setLoggedIn] = React.useState(false)
   
   React.useEffect(() => {
     Promise.all([api.getUserData(), api.getInitialCards()])
@@ -111,6 +113,11 @@ function App() {
   return (
   <CurrentUserContext.Provider value={currentUser}>
     <div className="page">
+      <Routes>
+        <Route path="/login" element={ <Login /> } />
+        <Route path="/registr" element={ <Registr /> } />
+        <Route path="/" element={loggedIn ? <Navigate to='/' /> : <Navigate to='/login' replace />} />
+      </Routes>
       <Header />
       <Main
         onEditProfile = {handleEditProfileClick}

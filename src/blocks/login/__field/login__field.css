@@ -1,0 +1,9 @@
+.login__field {    
+    min-height: 27px;
+    padding: 0;
+    margin-bottom: 30px;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+    outline: none;
+    border-bottom: 2px solid #ccc;
+}
