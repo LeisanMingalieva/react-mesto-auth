@@ -10,6 +10,7 @@ import AddPlacePopup from './AddPlacePopup';
 import PopupWithForm from './PopupWithForm';
 import Login from './Login';
 import Register from './Register';
+import ProtectedRoute from './ProtectedRoute'
 import React from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import {api} from '../utils/Api';
@@ -114,7 +115,12 @@ function App() {
   return (
   <CurrentUserContext.Provider value={currentUser}>
     <div className="page">
-    
+      <Routes>
+        <Route path="/login" element={ <Login /> } />
+        <Route path="/register" element={ <Register /> } />
+        <Route path="/" element={loggedIn ? <Navigate to='/' /> : <Navigate to='/login' replace />} />
+        <Route path="/" element={<ProtectedRoute element={Main} loggedIn={loggedIn} />} />
+      </Routes>    
       <Header />
       <Main
         onEditProfile = {handleEditProfileClick}
@@ -125,11 +131,7 @@ function App() {
         onCardDelete={handleCardDelete}
         cards = {cards}
       /> 
-      <Routes>
-        {/* <Route path="/login" element={ <Login /> } /> */}
-        <Route path="/register" element={ <Register /> } />
-        <Route path="/" element={loggedIn ? <Navigate to='/' /> : <Navigate to='/register' replace />} />
-      </Routes>        
+              
       <Footer />
       <EditProfilePopup
         isOpen={isEditProfilePopupOpen}
