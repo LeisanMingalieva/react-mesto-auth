@@ -185,8 +185,8 @@ useEffect(() => {
           <Login
             handleLogin={handleLogin}
             buttonText='Войти'
-          /> }
-        />
+          /> 
+        }/>
         <Route path="/main" element={
           <ProtectedRoute
             loggedIn={loggedIn}
@@ -197,14 +197,15 @@ useEffect(() => {
             onCardClick = {handleCardClick}
             onCardLike= {handleCardLike}
             onCardDelete={handleCardDelete}
-            cards = {cards}/>}
+            cards = {cards}
           />
+        }/>
         <Route path="/" element={
           loggedIn ? 
           <Navigate to="/main" /> : 
-          <Navigate to="sign-in" replace />} />
-      </Routes>   
-           
+          <Navigate to="sign-in" replace />
+        }/>
+      </Routes>           
       <Footer />
       <EditProfilePopup
         isOpen={isEditProfilePopupOpen}
@@ -221,11 +222,6 @@ useEffect(() => {
         onClose={closeAllPopups}
         card={selectedCard}
       />
-      {/* <PopupWithForm
-       name={'confirmForm'}
-       title = {'Вы уверены?'}
-       buttonText={'Да'}
-       /> */}
       <EditAvatarPopup
         isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopups}
