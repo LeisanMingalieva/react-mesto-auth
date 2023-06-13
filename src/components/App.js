@@ -55,12 +55,13 @@ const handleRegister = ({ email, password }) => {
   Auth.register( email, password )          
     .then(() => {
       setRegistrated(true);
-      setIsInfoTooltipOpen(true);
       navigate("/sign-in", { replace: true })
     })
     .catch(err => {
-      setIsInfoTooltipOpen(true);
       console.log(err)
+    })
+    .finally(() => {      
+      setIsInfoTooltipOpen(true);
     })
 }
 //Авторизация пользователя
@@ -97,6 +98,21 @@ useEffect(() => {
     setIsInfoTooltipOpen(false)
   }
 
+  const isOpen = isEditAvatarPopupOpen || isEditProfilePopupOpen || isAddPlacePopupOpen || isImageOpen || isInfoTooltipOpen
+  useEffect(() => {
+    function closeByEsc(e) {
+      if(e.ey === 'Escape') {
+        closeAllPopups();
+      }
+    }
+    if(isOpen) {
+      document.addEventListener('keydown', closeByEsc);
+      return () => {
+        document.removeEventListener('keydown', closeByEsc)
+      }
+    }
+  }, [isOpen])
+
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true)
   }
@@ -115,9 +131,7 @@ useEffect(() => {
         setCurrentUser(res);
         closeAllPopups();
       })
-      .catch((err) => {
-        console.log(err)
-      })
+      .catch(console.log)
   }
 
   function handleUpdateAvatar(data) {
@@ -126,9 +140,7 @@ useEffect(() => {
         setCurrentUser(res);
         closeAllPopups();
       })
-      .catch((err) => {
-        console.log(err)
-      })
+      .catch(console.log)
   }
 
   function handleCardLike(card) {
@@ -137,9 +149,7 @@ useEffect(() => {
       .then((newCard) => {
         setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
       })
-      .catch((err) => {
-        console.log(err)
-      })
+      .catch(console.log)
   }
 
   function handleCardDelete(card) {
@@ -148,9 +158,7 @@ useEffect(() => {
         setCards((arr) => arr.filter(item => card._id !== item._id))
         closeAllPopups()
       })
-      .catch((err) => {
-        console.log(err)
-      })
+      .catch(console.log)
   }  
 
   function handleAddPlaceSubmit(card) {
@@ -159,6 +167,7 @@ useEffect(() => {
         setCards([newCard, ...cards]);
         closeAllPopups();
       })
+      .catch(console.log)
   }
   
   function handleCardClick(card) {
