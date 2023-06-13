@@ -1,5 +1,6 @@
 .login {
     max-width: 358px;
+    width: 100%;
     background-color: black;
     display: flex;
     flex-direction: column;
@@ -7,4 +8,11 @@
     align-items: center;
     margin: 0 auto;
     padding-top: 60px;
+}
+
+@media (max-width: 375px) {
+    .login {
+        max-width: 260px;
+        width: 100%;
+    }    
 }
