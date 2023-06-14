@@ -9,12 +9,12 @@ function InfoToolTip ({name, registrated, isOpen, onClose, successTitle, failTit
           <button type="button" className="popup__close" onClick={onClose} />
           {registrated ? (
             <>
-            <img className="popup__tooltip-img" alt="Иконка успешной регистрации" src={successIcon} />
+            <img className="popup__tooltip-img" alt="Успешная регистрация" src={successIcon} />
             <p className="popup__tooltip-text">{successTitle}</p>
             </>    
           ) : (
             <>
-            <img className="popup__tooltip-img" alt="Иконка неуспешной регистрации" src={failIcon} />
+            <img className="popup__tooltip-img" alt="Неуспешная регистрация" src={failIcon} />
             <p className="popup__tooltip-text">{failTitle}</p>
             </> 
           )}
