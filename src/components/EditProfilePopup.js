@@ -1,8 +1,9 @@
 import React from 'react';
 import PopupWithForm from './PopupWithForm';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import { isLabelWithInternallyDisabledControl } from '@testing-library/user-event/dist/utils';
 
-function EditProfilePopup({onUpdateUser, isOpen, onClose}) {
+function EditProfilePopup({onUpdateUser, isOpen, onClose, isLoading}) {
   const [name, setName] = React.useState('');
   const [description, setDescription] = React.useState('');
   const currentUser = React.useContext(CurrentUserContext)
@@ -36,6 +37,7 @@ function EditProfilePopup({onUpdateUser, isOpen, onClose}) {
       isOpen = {isOpen}    
       onClose={onClose}
       onSubmit = {handleSubmit}
+      isLoading={isLoading}
     > 
       <fieldset className="popup__form-field">
         <input

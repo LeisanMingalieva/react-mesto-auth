@@ -1,6 +1,6 @@
 import React from 'react';
 
-function ImagePopup({isOpen, onClose, card, }) {
+function ImagePopup({isOpen, onClose, card }) {
   return (
     <section className= {`popup popup_type_image ${isOpen ? 'popup_opened' : ''}`} aria-label="Изображение">
         <figure className="popup__image-container">

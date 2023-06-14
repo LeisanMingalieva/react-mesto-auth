@@ -2,7 +2,7 @@ import React from "react";
 import PopupWithForm from "./PopupWithForm";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-function EditAvatarPopup({onUpdateAvatar, onClose, isOpen}) {
+function EditAvatarPopup({onUpdateAvatar, onClose, isOpen, isLoading}) {
   const avatarRef = React.useRef();
   const currentUser = React.useContext(CurrentUserContext);
 
@@ -25,6 +25,7 @@ function EditAvatarPopup({onUpdateAvatar, onClose, isOpen}) {
       isOpen={isOpen}      
       onClose={onClose}
       onSubmit={handleSubmit}
+      isLoading={isLoading}
     >
       <fieldset className="popup__form-field">
         <input

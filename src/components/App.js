@@ -32,6 +32,7 @@ function App() {
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [registrated, setRegistrated] = React.useState(false);
   const [userEmail, setUserEmail] = React.useState("");
+  const [isLoading, setIsLoading] = React.useState(false);
 
   React.useEffect(() => {
     if(loggedIn) {
@@ -101,7 +102,7 @@ useEffect(() => {
   const isOpen = isEditAvatarPopupOpen || isEditProfilePopupOpen || isAddPlacePopupOpen || isImageOpen || isInfoTooltipOpen
   useEffect(() => {
     function closeByEsc(e) {
-      if(e.ey === 'Escape') {
+      if(e.key === 'Escape') {
         closeAllPopups();
       }
     }
@@ -126,21 +127,29 @@ useEffect(() => {
   }
 
   function handleUpdateUser(data) {
+    setIsLoading(true);
     api.setUserData(data)
       .then(res => {
         setCurrentUser(res);
         closeAllPopups();
       })
       .catch(console.log)
+      .finally(() => {
+        setIsLoading(false);
+      })
   }
 
   function handleUpdateAvatar(data) {
+    setIsLoading(true);
     api.setUserAvatar(data)
       .then(res => {
         setCurrentUser(res);
         closeAllPopups();
       })
       .catch(console.log)
+      .finally(() => {
+        setIsLoading(false);
+      })
   }
 
   function handleCardLike(card) {
@@ -162,12 +171,16 @@ useEffect(() => {
   }  
 
   function handleAddPlaceSubmit(card) {
+    setIsLoading(true);
     api.postNewCard(card)
       .then((newCard) => {
         setCards([newCard, ...cards]);
         closeAllPopups();
       })
       .catch(console.log)
+      .finally(() => {
+        setIsLoading(false);
+      })
   }
   
   function handleCardClick(card) {
@@ -220,11 +233,13 @@ useEffect(() => {
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
         onUpdateUser={handleUpdateUser}
+        isLoading={isLoading}
       />      
       <AddPlacePopup
         isOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}
         onAddPlace={handleAddPlaceSubmit}
+        isLoading={isLoading}
       />
       <ImagePopup 
         isOpen={isImageOpen}
@@ -235,6 +250,7 @@ useEffect(() => {
         isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopups}
         onUpdateAvatar={handleUpdateAvatar}
+        isLoading={isLoading}
       />
       <InfoToolTip
         name = {'succes'}
