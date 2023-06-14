@@ -1,27 +1,12 @@
 export const BASE_URL = 'https://auth.nomoreparties.co';
 
-export const register = (email, password) => {
-    return fetch(`${BASE_URL}/signup`, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({email, password})
-    })
-    .then(checkResponse)
-    // return request(`/signup`), {
-    //     method: 'POST',
-    //     headers: {
-    //         'Accept': 'application/json',
-    //         'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify({email, password})
-    // }
+const request = (urlEndpoint, options) => {
+    return fetch(`${BASE_URL}${urlEndpoint}`, options)
+      .then(checkResponse)
 }
 
-export function authorize (email, password) {
-    return fetch(`${BASE_URL}/signin`, {
+export const register = (email, password) => {
+    return request('/signup', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -29,30 +14,28 @@ export function authorize (email, password) {
         },
         body: JSON.stringify({ email, password })
     })
-    .then(checkResponse)
 }
 
-// export function authorize (email, password) {
-//     return request('/signin'), {
-//         method: 'POST',
-//         headers: {
-//             'Accept': 'application/json',
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify({email, password})
-//     }
-// }
+export function authorize (email, password) {
+    return request('/signin', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+    })
+}
 
 export function tokenCheck (token)  {
-    return fetch(`${BASE_URL}/users/me`, {
+    return request('/users/me', {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
+            'Authorization': `Bearer ${token}`
         }
     })
-    .then(checkResponse)
 }
 
 const checkResponse = res => {
@@ -62,7 +45,3 @@ const checkResponse = res => {
     return Promise.reject(`Ой, ошибка ${res.status}`)
 }
 
-// const request = (urlEndpoint, options) => {
-//     return fetch(`${BASE_URL}${urlEndpoint}`, options)
-//       .then(checkResponse)
-// }
