@@ -2,9 +2,9 @@ import React from "react";
 import successIcon from '../image/succesIcon.png'
 import failIcon from '../image/failIcon.png'
 
-function InfoToolTip ({name, registrated, isOpen, onClose, successTitle, failTitle}) {
+function InfoToolTip ({name, registrated, isOpen, onClose, successTitle, failTitle, handleOverlayClick }) {
     return (
-    <section className= {`popup popup_type_${name} ${isOpen ? 'popup_opened' : ''}`} aria-label="Изображение">
+    <section className= {`popup popup_type_${name} ${isOpen ? 'popup_opened' : ''}`} onClick={handleOverlayClick} aria-label="Изображение">
         <div className="popup__content">
           <button type="button" className="popup__close" onClick={onClose} />
           {registrated ? (

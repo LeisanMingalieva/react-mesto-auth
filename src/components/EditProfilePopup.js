@@ -1,11 +1,13 @@
 import React from 'react';
 import PopupWithForm from './PopupWithForm';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import { OverlayClickContext } from '../contexts/OverlayClickCoontext';
 
-function EditProfilePopup({onUpdateUser, isOpen, onClose, isLoading}) {
+function EditProfilePopup({onUpdateUser, isOpen, onClose, isLoading }) {
   const [name, setName] = React.useState('');
   const [description, setDescription] = React.useState('');
-  const currentUser = React.useContext(CurrentUserContext)
+  const currentUser = React.useContext(CurrentUserContext);
+  const handleOverlayClick = React.useContext(OverlayClickContext);
 
   function handleNameChange(e) {
     setName(e.target.value);
@@ -37,6 +39,7 @@ function EditProfilePopup({onUpdateUser, isOpen, onClose, isLoading}) {
       onClose={onClose}
       onSubmit = {handleSubmit}
       isLoading={isLoading}
+      handleOverlayClick={handleOverlayClick}
     > 
       <fieldset className="popup__form-field">
         <input

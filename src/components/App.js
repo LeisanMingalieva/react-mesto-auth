@@ -17,6 +17,7 @@ import * as Auth from '../utils/Auth.js';
 
 import {api} from '../utils/Api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import { OverlayClickContext } from '../contexts/OverlayClickCoontext';
 
 
 function App() {
@@ -33,7 +34,7 @@ function App() {
   const [registrated, setRegistrated] = React.useState(false);
   const [userEmail, setUserEmail] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
-  
+
 //получение карточек и данных пользовотеля с сервера
   React.useEffect(() => {
     if(loggedIn) {
@@ -114,6 +115,12 @@ useEffect(() => {
       }
     }
   }, [isOpen])
+//функция закрытия попапов по оверлею
+  const handleOverlayClick = (e) => {
+    if(e.target === e.currentTarget) {
+      closeAllPopups();
+    }
+  }
 // функция открытия попапа редактирования аватара
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true)
@@ -222,28 +229,31 @@ useEffect(() => {
         }/>
       </Routes>           
       <Footer />
-      <EditProfilePopup
-        isOpen={isEditProfilePopupOpen}
-        onClose={closeAllPopups}
-        onUpdateUser={handleUpdateUser}
-        isLoading={isLoading}
-      />      
-      <AddPlacePopup
-        isOpen={isAddPlacePopupOpen}
-        onClose={closeAllPopups}
-        onAddPlace={handleAddPlaceSubmit}
-        isLoading={isLoading}
-      />
+      <OverlayClickContext.Provider value={handleOverlayClick}>
+        <EditProfilePopup
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
+          isLoading={isLoading}
+        />      
+        <AddPlacePopup
+          isOpen={isAddPlacePopupOpen}
+          onClose={closeAllPopups}
+          onAddPlace={handleAddPlaceSubmit}
+          isLoading={isLoading}
+        />      
+        <EditAvatarPopup
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar}
+          isLoading={isLoading}
+        />      
+      </OverlayClickContext.Provider>
       <ImagePopup 
         isOpen={isImageOpen}
         onClose={closeAllPopups}
         card={selectedCard}
-      />
-      <EditAvatarPopup
-        isOpen={isEditAvatarPopupOpen}
-        onClose={closeAllPopups}
-        onUpdateAvatar={handleUpdateAvatar}
-        isLoading={isLoading}
+        handleOverlayClick={handleOverlayClick}
       />
       <InfoToolTip
         name = {'succes'}
@@ -252,6 +262,7 @@ useEffect(() => {
         isOpen={isInfoTooltipOpen}
         onClose={closeAllPopups}
         registrated={registrated}
+        handleOverlayClick={handleOverlayClick}
       />
     </div>
   </CurrentUserContext.Provider>

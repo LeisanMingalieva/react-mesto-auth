@@ -1,10 +1,12 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import { OverlayClickContext } from "../contexts/OverlayClickCoontext";
 
 function EditAvatarPopup({onUpdateAvatar, onClose, isOpen, isLoading}) {
   const avatarRef = React.useRef();
   const currentUser = React.useContext(CurrentUserContext);
+  const handleOverlayClick = React.useContext(OverlayClickContext)
 
   React.useEffect(() => {
     avatarRef.current.value = ''
@@ -26,6 +28,7 @@ function EditAvatarPopup({onUpdateAvatar, onClose, isOpen, isLoading}) {
       onClose={onClose}
       onSubmit={handleSubmit}
       isLoading={isLoading}
+      handleOverlayClick={handleOverlayClick}
     >
       <fieldset className="popup__form-field">
         <input
