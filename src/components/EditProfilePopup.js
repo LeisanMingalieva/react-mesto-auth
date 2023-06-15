@@ -1,7 +1,6 @@
 import React from 'react';
 import PopupWithForm from './PopupWithForm';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
-import { isLabelWithInternallyDisabledControl } from '@testing-library/user-event/dist/utils';
 
 function EditProfilePopup({onUpdateUser, isOpen, onClose, isLoading}) {
   const [name, setName] = React.useState('');

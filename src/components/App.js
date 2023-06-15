@@ -15,8 +15,8 @@ import ProtectedRoute from './ProtectedRoute';
 import InfoToolTip from './InfoToolTip';
 import * as Auth from '../utils/Auth.js';
 
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import {api} from '../utils/Api';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 
 function App() {
@@ -33,7 +33,8 @@ function App() {
   const [registrated, setRegistrated] = React.useState(false);
   const [userEmail, setUserEmail] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
-
+  
+//получение карточек и данных пользовотеля с сервера
   React.useEffect(() => {
     if(loggedIn) {
       Promise.all([api.getUserData(), api.getInitialCards()])
@@ -45,13 +46,13 @@ function App() {
     }
   }, [loggedIn])
 
-  //Выход из системы
+  //выход из системы
   function signOut () {
     localStorage.removeItem('token');
     setLoggedIn(false);
     navigate('/sign-in');
   }
-//Регистрация пользователя
+//регистрация пользователя
 const handleRegister = ({ email, password }) => {
   Auth.register( email, password )          
     .then(() => {
@@ -65,7 +66,7 @@ const handleRegister = ({ email, password }) => {
       setIsInfoTooltipOpen(true);
     })
 }
-//Авторизация пользователя
+//авторизация пользователя
 const handleLogin = ({ email }) => {
   setLoggedIn(true);
   setUserEmail(email);
@@ -98,7 +99,7 @@ useEffect(() => {
     setIsImageOpen(false)
     setIsInfoTooltipOpen(false)
   }
-
+//закрытие попапов кнопкой Escape
   const isOpen = isEditAvatarPopupOpen || isEditProfilePopupOpen || isAddPlacePopupOpen || isImageOpen || isInfoTooltipOpen
   useEffect(() => {
     function closeByEsc(e) {
@@ -113,45 +114,50 @@ useEffect(() => {
       }
     }
   }, [isOpen])
-
+// функция открытия попапа редактирования аватара
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true)
   }
-
+// функция открытия попапа редактирования профиля
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true)
   }
-
+// функция открытия попапа добавления карточек
   function handleAddPlaceClick() {
     setIsAddPlacePopupOpen(true)
   }
-
+  //универсальная функция, которая принимает функцию запроса
+  function handleSubmit(request) {
+    setIsLoading(true);
+    request()
+      .then(closeAllPopups)
+      .catch(console.error)
+      .finally(() => setIsLoading(false));
+  }
+// функция редактирования профиля
   function handleUpdateUser(data) {
-    setIsLoading(true);
-    api.setUserData(data)
-      .then(res => {
-        setCurrentUser(res);
-        closeAllPopups();
-      })
-      .catch(console.log)
-      .finally(() => {
-        setIsLoading(false);
-      })
+    function makeRequest() {
+      return api.setUserData(data).then(setCurrentUser)
+    }
+    handleSubmit(makeRequest);
   }
-
+// функция редактирования аватара
   function handleUpdateAvatar(data) {
-    setIsLoading(true);
-    api.setUserAvatar(data)
-      .then(res => {
-        setCurrentUser(res);
-        closeAllPopups();
-      })
-      .catch(console.log)
-      .finally(() => {
-        setIsLoading(false);
-      })
+    function makeRequest() {
+      return api.setUserAvatar(data).then(setCurrentUser)
+    }
+    handleSubmit(makeRequest);
   }
-
+// функция добавления карточек
+  function handleAddPlaceSubmit(card) {
+    function makeRequest() {
+      return api.postNewCard(card).then((newCard) => {
+        setCards([newCard, ...cards]);
+      })
+    }
+    handleSubmit(makeRequest);
+  }
+// функция лайков карточки
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id)
     api.changeLikeCardStatus(card._id, !isLiked)
@@ -160,7 +166,7 @@ useEffect(() => {
       })
       .catch(console.log)
   }
-
+// функция удаления карточек
   function handleCardDelete(card) {
     api.deleteCard(card._id)
       .then(() => {
@@ -168,27 +174,14 @@ useEffect(() => {
         closeAllPopups()
       })
       .catch(console.log)
-  }  
-
-  function handleAddPlaceSubmit(card) {
-    setIsLoading(true);
-    api.postNewCard(card)
-      .then((newCard) => {
-        setCards([newCard, ...cards]);
-        closeAllPopups();
-      })
-      .catch(console.log)
-      .finally(() => {
-        setIsLoading(false);
-      })
-  }
-  
+  } 
+   // функция увеличения изображения
   function handleCardClick(card) {
     setIsImageOpen(true)
     setSelectedCard(card)
   }  
 
-  return (
+  return (    
   <CurrentUserContext.Provider value={currentUser}>
     <div className="page">
     <Header 
@@ -262,6 +255,7 @@ useEffect(() => {
       />
     </div>
   </CurrentUserContext.Provider>
+  
   );
 }
 
