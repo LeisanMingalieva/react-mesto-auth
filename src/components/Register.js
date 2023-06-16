@@ -1,20 +1,13 @@
 import React from "react";
 import { Link } from 'react-router-dom';
+import { useForm } from "../hooks/useForm";
 
 export default function Register ({ handleRegister, buttonText}) {
-    const [formValue, setFormValue] = React.useState({
-        email: "",
-        password: ""
-    })
-
-    const handleChange = (e) => {
-        const {name, value} = e.target;    
-        setFormValue({ ...formValue, [name]: value });
-      }
-
+    const {values, handleChange} = useForm({email: "", password: ""})
+    
     const handleSubmit = (e) => {
         e.preventDefault();
-        handleRegister(formValue)
+        handleRegister(values)
       }
     
     return (
@@ -30,7 +23,7 @@ export default function Register ({ handleRegister, buttonText}) {
                         minLength={2}
                         maxLength={40}
                         name="email"
-                        value={formValue.email}
+                        value={values.email}
                         autoComplete="email"
                         required
                     >                    
@@ -45,7 +38,7 @@ export default function Register ({ handleRegister, buttonText}) {
                         minLength={2}
                         maxLength={40}
                         name="password"
-                        value={formValue.password}
+                        value={values.password}
                         autoComplete="new-password"
                         required
                     >

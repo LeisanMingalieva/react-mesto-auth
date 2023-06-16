@@ -1,18 +1,14 @@
-import React, { useState} from "react";
+import React from "react";
+import { useForm } from "../hooks/useForm";
 
 export default function Login({ buttonText, handleLogin}) {
-    const [formValue, setFormValue] = useState({ email: "", password: "" })
+    const {values, handleChange, setValues} = useForm({email: "", password: ""})
 
-    const handleChange =(e) => {
-        const {name, value} = e.target;
-        setFormValue({ ...formValue, [name]: value });
-    }
-
-    const handleSubmit =(e) => {
+     const handleSubmit =(e) => {
         e.preventDefault();
         
-        handleLogin(formValue);
-        setFormValue({
+        handleLogin(values);
+        setValues({
             email: "",
             password: "",
           });
@@ -31,7 +27,7 @@ export default function Login({ buttonText, handleLogin}) {
                         placeholder="Email"
                         minLength={2}
                         maxLength={40}
-                        value={formValue.email}
+                        value={values.email}
                         autoComplete="email"
                         required
                     >                    
@@ -46,7 +42,7 @@ export default function Login({ buttonText, handleLogin}) {
                         minLength={2}
                         maxLength={40}
                         name="password"
-                        value={formValue.password}
+                        value={values.password}
                         autoCorrect="password"
                         required
                     >
