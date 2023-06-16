@@ -66,11 +66,19 @@ const handleRegister = ({ email, password }) => {
       setIsInfoTooltipOpen(true);
     })
 }
-//авторизация пользователя
-const handleLogin = ({ email }) => {
-  setLoggedIn(true);
-  setUserEmail(email);
-  setRegistrated(true);
+const handleLogin = ({email, password}) => {
+  Auth.authorize(email, password)
+    .then(data => {
+      if(data.token) {
+        localStorage.setItem('token', data.token)
+        setLoggedIn(true)
+        setUserEmail(email)
+        navigate('/main')
+      }
+    })
+    .catch(err => {
+      console.log(err)
+    })
 }
 //Проверка валидности токена
 const tokenCheck = () => {
@@ -79,7 +87,7 @@ const tokenCheck = () => {
     Auth.tokenCheck(token)
       .then(user => {
         const userEmail = user.data.email;
-        handleLogin(user);
+        setLoggedIn(true)
         navigate("/main");
         setUserEmail(userEmail)
       })
