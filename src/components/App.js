@@ -17,7 +17,6 @@ import * as Auth from '../utils/Auth.js';
 
 import {api} from '../utils/Api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
-import { OverlayClickContext } from '../contexts/OverlayClickCoontext';
 
 
 function App() {
@@ -99,27 +98,6 @@ useEffect(() => {
     setIsEditAvatarPopupOpen(false)
     setIsImageOpen(false)
     setIsInfoTooltipOpen(false)
-  }
-//закрытие попапов кнопкой Escape
-  const isOpen = isEditAvatarPopupOpen || isEditProfilePopupOpen || isAddPlacePopupOpen || isImageOpen || isInfoTooltipOpen
-  useEffect(() => {
-    function closeByEsc(e) {
-      if(e.key === 'Escape') {
-        closeAllPopups();
-      }
-    }
-    if(isOpen) {
-      document.addEventListener('keydown', closeByEsc);
-      return () => {
-        document.removeEventListener('keydown', closeByEsc)
-      }
-    }
-  }, [isOpen])
-//функция закрытия попапов по оверлею
-  const handleOverlayClick = (e) => {
-    if(e.target === e.currentTarget) {
-      closeAllPopups();
-    }
   }
 // функция открытия попапа редактирования аватара
   function handleEditAvatarClick() {
@@ -229,7 +207,6 @@ useEffect(() => {
         }/>
       </Routes>           
       <Footer />
-      <OverlayClickContext.Provider value={handleOverlayClick}>
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
@@ -247,13 +224,11 @@ useEffect(() => {
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
           isLoading={isLoading}
-        />      
-      </OverlayClickContext.Provider>
+        />
       <ImagePopup 
         isOpen={isImageOpen}
         onClose={closeAllPopups}
         card={selectedCard}
-        handleOverlayClick={handleOverlayClick}
       />
       <InfoToolTip
         name = {'succes'}
@@ -262,7 +237,6 @@ useEffect(() => {
         isOpen={isInfoTooltipOpen}
         onClose={closeAllPopups}
         registrated={registrated}
-        handleOverlayClick={handleOverlayClick}
       />
     </div>
   </CurrentUserContext.Provider>

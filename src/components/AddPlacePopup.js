@@ -1,12 +1,11 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
-import { OverlayClickContext } from "../contexts/OverlayClickCoontext";
+
 
 
 function AddPlacePopup({isOpen, onClose, onAddPlace, isLoading }) {
   const[title, setTitle] = React.useState('')
   const[link, setLink] = React.useState('')
-  const handleOverlayClick = React.useContext(OverlayClickContext)
 
   function handleTitleChange(e) {
     setTitle(e.target.value);
@@ -36,7 +35,6 @@ function AddPlacePopup({isOpen, onClose, onAddPlace, isLoading }) {
       onClose={onClose}
       onSubmit={handleSubmit}
       isLoading={isLoading}
-      handleOverlayClick={handleOverlayClick}
     > 
       <fieldset className="popup__form-field">
         <input
