@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://auth.nomoreparties.co';
+export const BASE_URL = 'https://mesto-andriyanova.nomoredomains.xyz';
 
 const request = (urlEndpoint, options) => {
     return fetch(`${BASE_URL}${urlEndpoint}`, options)

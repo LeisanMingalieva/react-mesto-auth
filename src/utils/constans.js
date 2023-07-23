@@ -33,7 +33,7 @@ export const apiConfig = {
   url: 'https://mesto.nomoreparties.co/v1/cohort-64',
   headers: {
     authorization: '96b297f0-a85f-4378-98b7-30ead3538e01',
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
   }
 }
   
